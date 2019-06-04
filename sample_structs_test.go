@@ -12,6 +12,16 @@ type Sample struct {
 	Omit *string `csv:"Omit,omitempty"`
 }
 
+type SampleTagJson struct {
+	Foo  string  `json:"foo"`
+	Bar  int     `json:"BAR"`
+	Baz  string  `json:"Baz"`
+	Frop float64 `json:"Quux"`
+	Blah *int    `json:"Blah"`
+	SPtr *string `json:"SPtr"`
+	Omit *string `json:"Omit,omitempty"`
+}
+
 type EmbedSample struct {
 	Qux string `csv:"first"`
 	Sample

@@ -1,6 +1,7 @@
 package gocsv
 
 import (
+	"os"
 	"reflect"
 	"strings"
 	"sync"
@@ -8,6 +9,16 @@ import (
 
 // --------------------------------------------------------------------------
 // Reflection helpers
+
+//allow user setting other tagName to adaptor the legacy code, for example some structs' already has the json tag or others.
+func getTagName() string {
+	tagName := os.Getenv("tag")
+	if len(tagName) != 0 {
+		return tagName
+	}
+
+	return "csv"
+}
 
 type structInfo struct {
 	Fields []fieldInfo
@@ -86,7 +97,7 @@ func getFieldInfos(rType reflect.Type, parentIndexChain []int) []fieldInfo {
 		}
 
 		fieldInfo := fieldInfo{IndexChain: indexChain}
-		fieldTag := field.Tag.Get("csv")
+		fieldTag := field.Tag.Get(getTagName())
 		fieldTags := strings.Split(fieldTag, TagSeparator)
 		filteredTags := []string{}
 		for _, fieldTagEntry := range fieldTags {
